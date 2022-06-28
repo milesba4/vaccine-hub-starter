@@ -5,10 +5,7 @@ const{BCRYPT_WORK_FACTOR} = require("../config")
 class User {
 
 static async login(credentials){
-// User submits their email and passwords
-// if any feilds missing throw error
 
-// look up user in db by email
     const requiredFeilds = ["email", "password", "first_name", "last_name", "location","date"]
     requiredFeilds.forEach(field=>{
         if(!credentials.hasOwnProperty(field)){
