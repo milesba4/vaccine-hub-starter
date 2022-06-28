@@ -4,6 +4,10 @@
 /node_modules
 /.pnp
 .pnp.js
+/express@next
+/morgan
+/cors
+/nodemon
 
 # testing
 /coverage
