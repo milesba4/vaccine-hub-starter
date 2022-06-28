@@ -1,3 +1,4 @@
 
 vaccine-hub-api/.env
 vaccine-hub-api/.env.template
+vaccine-hub-api/security.js
