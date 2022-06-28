@@ -7,12 +7,22 @@ static async login(credentials){
 // if any feilds missing throw error
 
 // look up user in db by email
-// if user found, compare the submitted password
+    const requiredFeilds = ["email", "password", "first_name", "last_name", "location","date"]
+    requiredFeilds.forEach(field=>{
+        if(!credentials.hasOwnProperty(field)){
+        throw new BadRequestError(`Missing ${field} in request body`)
+        }
+    })
 
-// with the password in db
-// if there is a match, return the user
+    const user = await User.fetchUserByEmail(credentials.email)
 
-// if anything goes wrong throw an error
+    if(user){
+        const isValid = await bcrypt.compare(credentials.password,user.password)
+        if(isValid){
+            return user
+        }
+    }
+    
 throw new UnauthorizedError("Invalid credentials")
 }
 
