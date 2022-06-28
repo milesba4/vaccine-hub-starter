@@ -1,4 +1,4 @@
-const {UnauthorizedError} = require("../utils/errors")
+const {BadRequestError,UnauthorizedError} = require("../utils/errors")
 const db = require("../db")
 class User {
 
@@ -17,11 +17,17 @@ throw new UnauthorizedError("Invalid credentials")
 }
 
 static async register(credentials){
-// user should submit email, password, rsvp status, and # of guests 
+// user should submit email, password
 // if any of these feilds are missing, throw an error
+const requiredFeilds = ["email", "password", "first_name", "last_name", "location", "date"]
 
+requiredFeilds.forEach(field=>{
+    if(!credentials.hasOwnProperty(field)){
+    throw new BadRequestError(`Missing ${field} in request body`)
+    }
+})
 
-// Make sure email doesnt already exist in the system 
+// Make sure user doesnt already exist in the system 
 // if one does, throw an error
 
 //take the user's password, and hash it 
