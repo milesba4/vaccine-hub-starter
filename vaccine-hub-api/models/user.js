@@ -1,5 +1,7 @@
 const {BadRequestError,UnauthorizedError} = require("../utils/errors")
+const bcrypt = require("bcrypt")
 const db = require("../db")
+const{BCRYPT_WORK_FACTOR} = require("../config")
 class User {
 
 static async login(credentials){
