@@ -4,6 +4,16 @@ const db = require("../db")
 const{BCRYPT_WORK_FACTOR} = require("../config")
 class User {
 
+static async makePublicUser(user){
+return {
+    id:user.id,
+    email:user.email,
+    first_name:user.first_name,
+    last_name:user.last_name,
+    location:user.location,
+    date:user.date
+}
+}
 static async login(credentials){
 
     const requiredFeilds = ["email", "password", "first_name", "last_name", "location","date"]
@@ -18,7 +28,7 @@ static async login(credentials){
     if(user){
         const isValid = await bcrypt.compare(credentials.password,user.password)
         if(isValid){
-            return user
+            return User.makePublicUser(user)
         }
     }
     
@@ -26,6 +36,7 @@ throw new UnauthorizedError("Invalid credentials")
 }
 
 static async register(credentials){
+console.log("cred=", credentials)
 // user should submit email, password
 // if any of these feilds are missing, throw an error
 const requiredFeilds = ["email", "password", "first_name", "last_name", "location","date"]
@@ -73,7 +84,7 @@ const result = await db.query(
 console.log("result =", result)
 const user = result.rows[0]
 console.log("user=", user)
-return user
+return User.makePublicUser(user)
 }
 static async fetchUserByEmail(email){
     if(!email){
